@@ -10,12 +10,15 @@ describe Code2rubylearning do
   end
 
   it "must hold an array of switches" do
+    c2rl::parse_command_line(['-i','-s','test.rb'])
     c2rl::switches.must_be_kind_of Array
     c2rl::switches[0].must_equal '-i'
   end
 
   it "must hold an Array of files" do
+   c2rl::parse_command_line(['-i','-s','test.rb'])
    c2rl::files.must_be_kind_of Array 
+   c2rl::files[0].must_equal 'test.rb'
   end
 
 end

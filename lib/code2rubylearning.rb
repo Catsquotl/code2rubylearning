@@ -5,36 +5,38 @@ module Code2rubylearning
   attr_reader :files,:switches
   @files = []
   @switches = []
-  args = %w{-i -s test.rb}
-  until args.first.to_s.include?('-') == false
-    tmp_switch = args.shift
-    @switches.push(tmp_switch)
-  end
+  com_input = ARGV
 
-  until args.empty?
-    tmp_file = args.shift
-    @files.push(tmp_file)
-  end
+  def parse_command_line com_input=[]
+    "Nothing to do" unless com_input
 
-  class Reformat
-    def reformat_to_rubylearning file_name
-      File.open(file_name,"r") do |txt|
-        @file_text = txt.read
-      end
-      @file_text.gsub!('<' ,'&lt;')
-      @ref_file = "[code ruby]\n" << @file_text << '[/code]'
+    until com_input.first.to_s.include?('-') == false
+      tmp_switch = com_input.shift
+      @switches.push(tmp_switch)
+    end
+
+    until com_input.empty?
+      tmp_file = com_input.shift
+      @files.push(tmp_file)
     end
   end
 
-
-  # Your code goes here...
-  extend self
-  def copy_clipboard data
-    Clippy.copy data
+  def reformat_to_rubylearning file_name
+    File.open(file_name,"r") do |txt|
+      @file_text = txt.read
+    end
+    @file_text.gsub!('<' ,'&lt;')
+    @ref_file = "[code ruby]\n" << @file_text << '[/code]'
   end
 
-  def paste_clipboard
-    Clippy.paste
-  end
+# Your code goes here...
+extend self
+def copy_clipboard data
+  Clippy.copy data
+end
+
+def paste_clipboard
+  Clippy.paste
+end
 
 end
